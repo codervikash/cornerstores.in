@@ -34,7 +34,7 @@ body {
 
 
 .navbar .nav a:hover {
-  color: #F16362;
+  background-color: #F16362;
   border-bottom: none;
 }
 
@@ -42,7 +42,7 @@ body {
 .navbar-default .navbar-nav > .active > a:hover,
  .navbar-default .navbar-nav > .active > a:focus {
   background-image: none;
-  color: black;
+  color: #F16362;
   border-bottom: none;
   background-color: transparent;
   box-shadow: none;
@@ -76,7 +76,7 @@ body {
 
 .button {
   font-family: 'Open Sans Condensed', sans-serif;
-  font-size: 50px;
+  font-size: 20px;
   border: 2px solid #ddd;
   color: #333;
   text-align: center;
@@ -85,14 +85,15 @@ body {
 
 
 .buttn {
-  padding-top: 30px;
-  padding: 40px 40px 20px;
+  
+  padding: 40px 0px 50px 0px;
 position: relative;
 }
 
 .button:hover {
   border: 2px solid #F16362;
-  color: #F16362;
+  color: white;
+  background-color: #F16362;
 }
 
 
@@ -101,14 +102,29 @@ position: relative;
     padding-left: 36%;
     padding-right: 36%;
   }
+  .button {
+    font-size: 45px;
+  }
 }
-@media (min-width : 620px ){
+@media (max-width : 850px ){
   .buttn {
     padding-left: 30%;
     padding-right: 30%;
   }
+  .button {
+    font-size: 40px;
+  }
 }
 
+@media (max-width : 620px ){
+  .buttn {
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+  .button {
+    font-size: 30px;
+  }
+}
 
 .container > .navbar-header, 
 .container-fluid > .navbar-header, 
@@ -131,16 +147,20 @@ position: relative;
 
 .footer{
   border-top: 1px solid #ddd;
-  padding: 0px 0 0px 0;
   height: 100px;
   position: absolute;
   bottom: 0;
   width: 100%;
   font-family: 'Open Sans Condensed', sans-serif;
   font-size: 20px;
-  padding-left: 41%;
+  padding-left: 35%;
 }
 
+@media (max-width : 825px ){
+  .footer {
+    padding-left: 25%;
+  }
+}
 
 
 
