@@ -2,13 +2,15 @@
 
 
 body {
- padding-top: 70px;
+ padding-top: 75px;
 }
 
-html,
 body {
+  height: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  
+  
 }
 
 .navbar-default {
@@ -26,7 +28,7 @@ body {
 .navbar .nav a{
   border-bottom: 1px solid #F16362;
   margin-right: 30px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   font-size: 20px;
   font-family: 'Open Sans Condensed', sans-serif;
 }
@@ -68,12 +70,55 @@ body {
   padding-top: 50px;
 }
 
-.content h1 {
+.content h2 {
   text-align: center;
   font-family: 'Open Sans Condensed', sans-serif;
   font-size: 30px;
 }
 
+.content h1 {
+  text-align: center;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 20px;
+  padding-top: 25px;
+  padding-bottom: 10px;
+}
+
+.content1{
+  text-align: center;
+  font-family: 'Open Sans Condensed', sans-serif;
+  width: 100%;
+  
+  position: relative;
+}
+
+.social{
+  text-align: right;
+  font-size: 20px;
+  padding-top: 40px;
+  
+
+}
+.social1{
+  text-align: left;
+  padding-top: 50px;
+  padding-bottom: 30px;
+  font-size: 40px;
+}
+
+@media (max-width: 780px){
+  .social,
+  .social1 {
+    text-align: center;
+  }
+  .social {
+    padding-bottom: 0px;
+  }
+  .social1 {
+    padding-bottom: 50px;
+    padding-top: 0px;
+  }
+}
 .button {
   font-family: 'Open Sans Condensed', sans-serif;
   font-size: 20px;
@@ -86,7 +131,7 @@ body {
 
 .buttn {
   
-  padding: 40px 0px 50px 0px;
+  padding: 50px 0px 60px 0px;
 position: relative;
 }
 
@@ -94,10 +139,14 @@ position: relative;
   border: 2px solid #F16362;
   color: white;
   background-color: #F16362;
+  -webkit-transition: all 0.5s;
+     -moz-transition: all 0.5s;
+       -o-transition: all 0.5s;
+          transition: all 0.5s;
 }
 
 
-@media (min-width: 850px){
+@media (min-width: 920px){
   .buttn {
     padding-left: 36%;
     padding-right: 36%;
@@ -106,7 +155,7 @@ position: relative;
     font-size: 45px;
   }
 }
-@media (max-width : 850px ){
+@media (max-width : 920px ){
   .buttn {
     padding-left: 30%;
     padding-right: 30%;
@@ -135,7 +184,7 @@ position: relative;
 .footer .copy{
   color: #333;
   font-size: 15px;
-  padding-top: 20px;
+  padding-top: 15px;
 }
 
 .footer .nav a:hover{
@@ -144,11 +193,14 @@ position: relative;
   cursor: pointer;
 
 }
+.footer .nav a {
+  padding-bottom: 10px;
+}
 
 .footer{
   border-top: 1px solid #ddd;
-  height: 100px;
-  position: absolute;
+  height: 60px;
+  position: relative;
   bottom: 0;
   width: 100%;
   font-family: 'Open Sans Condensed', sans-serif;
@@ -156,11 +208,157 @@ position: relative;
   padding-left: 35%;
 }
 
-@media (max-width : 825px ){
-  .footer {
-    padding-left: 25%;
-  }
+@media (max-height :850px){
+  .footer .copy {
+    padding-left: 10%;
+}
+
+
+/* Wrapper */
+.icon-button {
+  background-color: white;
+  border-radius: 2.6rem;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 3.3rem;
+  height: 2.6rem;
+  line-height: 2.6rem;
+  margin: 0 5px;
+  position: relative;
+  text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  width: 2.6rem;
+}
+
+/* Circle */
+.icon-button span {
+  border-radius: 0;
+  display: block;
+  height: 0;
+  left: 50%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -webkit-transition: all 0.3s;
+     -moz-transition: all 0.3s;
+       -o-transition: all 0.3s;
+          transition: all 0.3s;
+  width: 0;
+}
+.icon-button:hover span {
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 4.2rem;
+  margin: -2.2rem;
+
+}
+
+/* Icons */
+.icon-button i {
+  background: none;
+  color: white;
+  height: 2.6rem;
+  left: 0;
+  line-height: 2.6rem;
+  position: absolute;
+  top: 0;
+  -webkit-transition: all 0.3s;
+     -moz-transition: all 0.3s;
+       -o-transition: all 0.3s;
+          transition: all 0.3s;
+  width: 2.6rem;
+  z-index: 10;
 }
 
 
 
+
+
+.twitter span {
+  background-color: #4099ff;
+}
+.facebook span {
+  background-color: #3B5998;
+}
+.google-plus span {
+  background-color: #db5a3c;
+}
+.tumblr span {
+  background-color: #34526f;
+}
+.instagram span {
+  background-color: #517fa4;
+}
+.youtube span {
+  background-color: #bb0000;
+}
+.pinterest span {
+  background-color: #cb2027;
+}
+
+
+
+.icon-button .icon-twitter {
+  color: #333;
+}
+.icon-button .icon-facebook {
+  color: #333;
+}
+.icon-button .fa-tumblr {
+  color: #333;
+}
+.icon-button .icon-google-plus {
+  color: #333;
+}
+.icon-button .fa-instagram {
+  color: #517fa4;
+}
+.icon-button .fa-youtube {
+  color: #bb0000;
+}
+.icon-button .fa-pinterest {
+  color: #cb2027;
+}
+
+
+
+
+.icon-button:hover .icon-twitter,
+.icon-button:hover .icon-facebook,
+.icon-button:hover .icon-google-plus,
+.icon-button:hover .fa-tumblr,
+.icon-button:hover .fa-instagram,
+.icon-button:hover .fa-youtube,
+.icon-button:hover .fa-pinterest {
+  color: white;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+@media all and (max-width: 680px) {
+  .icon-button {
+    border-radius: 2.8rem;
+    font-size: 1.8rem;
+    height: 2.8rem;
+    line-height: 2.8rem;
+    width: 2.8rem;
+  }
+
+  .icon-button:hover span {
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 3.2rem;
+    margin: -1.6rem;
+  }
+
+  /* Icons */
+  .icon-button i {
+    height: 2.8rem;
+    line-height: 2.8rem;
+    width: 2.8rem;
+  }
+
+}
