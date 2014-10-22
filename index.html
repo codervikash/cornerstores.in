@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>Corner Stores</title>
+    <title>CornerStores</title>
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Merriweather:700italic' rel='stylesheet' type='text/css'>
@@ -13,9 +13,12 @@
 <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'><link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css'>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="css/_style.css">
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/_style.css">
+     <link rel="stylesheet" type="text/css" href="static/css/default.css" />
+    <link rel="stylesheet" type="text/css" href="static/css/component.css" />
+    <script src="static/js/modernizr.custom.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -25,9 +28,9 @@
     <![endif]-->
   </head>
   <body>
-   <!-- navigation bar --> 
-  <nav class="navbar navbar-default navbar-fixed-top head clearfix" role="navigation" style="background-image: url('img/speckle.gif');">
-  <div class="container-fluid  head clearfix" style="background-image: url('img/speckle.gif');">
+   <!-- navigation bar -->
+  <nav class="navbar navbar-default navbar-fixed-top head clearfix" role="navigation" style="background-image: url('static/img/speckle.gif');">
+  <div class="container-fluid  head clearfix" style="background-image: url('ststic/img/speckle.gif');">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header head clearfix">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -36,7 +39,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="'/">Corner Stores</a>
+      <a class="navbar-brand" href="'/">CornerStores</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -49,6 +52,9 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+{% block maincontent %}
+
+
 <section class"row">
 <div class="col-lg-12 col-xs-12 content">
 	<h3>Shop Online Locally !!</h3>
@@ -58,7 +64,7 @@
 </div>
 </div>
 <div class="col-lg-12 col-xs-12 buttn">
-	<a href="https://corner-stores.appspot.com/" class="btn btn-block btn-lg button"><span class="text">Take The Survey</span></a>
+	<a href="http://localhost:8080/survey" class="btn btn-block btn-lg button"><span class="text">Take The Survey</span></a>
 </div>
 <div class="row clearfix">
 <div class="col-lg-12 col-md-12 content1">
@@ -72,19 +78,83 @@
 </div></div>
 </section>
 
+
+    {% endblock %}
 <!--footer -->
-<footer class="footer navbar-default navbar-fixed-bottom nav-footer row clearfix" role="navigation">
+<footer class="footer navbar navbar-bottom row clearfix" role="navigation">
+<div class="fcenter">
 	<ul  class="nav navbar-nav">
 		<li class="col-xs-3 navbar-text navbar-left"><a>Team</a></li>
 		<li class="col-xs-3 navbar-text navbar-left"><a>Privacy</a></li>
 		<li class="col-xs-3 navbar-text navbar-left"><a>FAQ</a></li>
-	</ul> 
-	<p class="navbar-text navbar-right copy" style="padding-right: 15px;">&copy;2014 cornerstores.in</p>
+	</ul>
+  </div>
+      <p class="navbar-text copy">&copy;2014 cornerstores.in</p>
 </footer>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script src="static/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="static/js/jquery.pagination.js"></script>
+    <script src="static/js/nlform.js"></script>
+    <script>
+
+
+$(document).ready(function(){
+   $(".nl-form .cls").each(function(e) {
+        if (e != 0)
+            $(this).hide();
+    });
+
+    $("#next").click(function(){
+        if ($(".nl-form  .cls:visible").next().length >0)
+            $(".nl-form  .cls:visible").next().show().prev().hide();
+        else {
+            $(".nl-form  .cls:visible").hide();
+            $(".nl-form  .cls:first").show();
+        }
+        return false;
+    });
+
+    $("#prev").click(function(){
+        if ($(".nl-form .cls:visible").prev().length> 0)
+            $(".nl-form .cls:visible").prev().show().next().hide();
+        else {
+            $(".nl-form .cls:visible").hide();
+            $(".nl-form .cls:last").show();
+        }
+        return false;
+    });
+});
+
+
+      $(function() {
+
+
+
+        $( "#slider" ).pagination( {
+          total : 100,
+          onChange : function( value ) {
+            $update.text( value );
+          }
+        } );
+        $( "#slider1" ).pagination( {
+          total : 100,
+          onChange : function( value ) {
+            $update.text( value );
+          }
+        } );
+
+      });
+
+        var nlform = new NLForm( document.getElementById( 'nl-form' ) );
+    </script>
+
+
   </body>
 </html>

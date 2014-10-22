@@ -9,8 +9,8 @@ body {
   height: 100%;
   max-width: 100%;
   overflow-x: hidden;
-  
-  
+
+
 }
 
 .navbar-default {
@@ -88,7 +88,7 @@ body {
   text-align: center;
   font-family: 'Open Sans Condensed', sans-serif;
   width: 100%;
-  
+
   position: relative;
 }
 
@@ -96,7 +96,7 @@ body {
   text-align: right;
   font-size: 20px;
   padding-top: 40px;
-  
+
 
 }
 .social1{
@@ -130,7 +130,7 @@ body {
 
 
 .buttn {
-  
+
   padding: 50px 0px 60px 0px;
 position: relative;
 }
@@ -175,43 +175,76 @@ position: relative;
   }
 }
 
-.container > .navbar-header, 
-.container-fluid > .navbar-header, 
+.container > .navbar-header,
+.container-fluid > .navbar-header,
 .container > .navbar-collapse, .container-fluid > .navbar-collapse {
     margin-left: 0px;
+}
+
+.fcenter .nav >li > a{
+  border-bottom: none;
+  margin-right: 30px;
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-family: 'Open Sans Condensed', sans-serif;
+  text-decoration: none;
+  color: #777;
+}
+
+
+
+.fcenter .nav > li > a:hover {
+  border-bottom: none;
+  background: transparent;
+  background-color: none;
+  color: #F16362;
+  cursor: pointer;
+}
+
+.fcenter .nav > li  > .active > a,
+.fcenter .nav >li > .active > a:hover,
+.fcenter .nav >li  > .active > a:focus {
+  background-image: none;
+  color: #F16362;
+  border-bottom: none;
+  background-color: transparent;
+  box-shadow: none;
+  cursor: default;
 }
 
 .footer .copy{
   color: #333;
   font-size: 15px;
-  padding-top: 15px;
+  text-align: center;
+  width: 100%;
 }
 
-.footer .nav a:hover{
+.footer .nav {
+  width: 100%;
+  text-align : center;
   text-decoration: none;
-  border-bottom: none;
-  cursor: pointer;
+}
+
 
 }
 .footer .nav a {
   padding-bottom: 10px;
 }
 
-.footer{
+.footer {
   border-top: 1px solid #ddd;
-  height: 60px;
   position: relative;
   bottom: 0;
   width: 100%;
   font-family: 'Open Sans Condensed', sans-serif;
   font-size: 20px;
-  padding-left: 35%;
+  margin: 0;
 }
 
-@media (max-height :850px){
-  .footer .copy {
-    padding-left: 10%;
+.fcenter{
+margin-left: 18%;
 }
+
 
 
 /* Wrapper */
@@ -232,7 +265,6 @@ position: relative;
           user-select: none;
   width: 2.6rem;
 }
-
 /* Circle */
 .icon-button span {
   border-radius: 0;
