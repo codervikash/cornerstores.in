@@ -1,0 +1,109 @@
+{% extends "main.html" %}
+
+{% block maincontent %}
+
+
+<style type="text/css" media="screen">
+.navbar {
+    margin-bottom: 0px;
+}
+.form {
+    min-height: 430px;
+    color: #777;
+    background: #f6f6f3;
+    box-shadow: 0px 3px 15px hsla(0,0%,0%,.08);
+    position: relative;
+    border: 1px solid #dfdfd3;
+    background-image: -webkit-radial-gradient(#d6d5d6 30%, transparent 20%),
+                      -webkit-radial-gradient(#cfcfc3 38%, transparent 24%),
+                      -webkit-linear-gradient(top, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,0) 95%,
+                                                   hsla(180,75%,50%,.1) 95%, hsla(180,75%,50%,.1) 100%);
+    background-image: -moz-radial-gradient(#d6d5d6 30%, transparent 20%),
+                      -moz-radial-gradient(#cfcfc3 38%, transparent 24%),
+                      -moz-linear-gradient(top, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,0) 95%,
+                                                   hsla(180,75%,50%,.1) 95%, hsla(180,75%,50%,.1) 100%);
+    background-image: radial-gradient(#d6d5d6 30%, transparent 20%),
+                      radial-gradient(#cfcfc3 38%, transparent 24%),
+                      linear-gradient(top, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,0) 95%,
+                                                   hsla(180,75%,50%,.1) 95%, hsla(180,75%,50%,.1) 100%);
+    background-position: 4px 1px, 4px 0px, 50% 0px;
+    background-repeat: repeat-y,  repeat-y, repeat;
+    background-size: 30px 30px, 30px 30px, 30px 30px;
+    padding: 36px 48px 23px 80px;
+}
+.form:after {
+    border-left: 2px solid hsla(0,95%,50%,.1);
+    border-right: 2px solid hsla(0,95%,50%,.1);
+    bottom: 0;
+    content: '';
+    left: 60px;
+    position: absolute;
+    top: 0;
+    width: 3px;
+}
+
+.form td {
+    font: italic 24px/30px 'Loved by the King', cursive;
+    line-height: 30px;
+    margin-bottom: 30px;
+}
+
+.form h1 {
+    font: italic 30px/30px 'Loved by the King', cursive;
+}
+
+.say {
+background: transparent;
+border: 0px;
+outline: 0;
+width: 100%;
+min-height : 330px;
+font: 20px/30px serif;
+font-family: 'Loved by the King', cursive;
+resize: true;
+}
+
+
+
+</style>
+
+<div class="form" style="
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+"><h1 style="
+    padding-left: 80px;
+">Order received</h1>
+<div style="
+    padding-left: 82px;
+">
+<h3>Order</h3>
+{% for orders in order.order %}
+<h4>{{orders}}</h4>
+{% endfor %}
+<h4>{{order.shops}}</h4>
+
+<h3>Address</h3>
+<h4>{{address.user}}</h4>
+<h4>{{address.flat}}</h4>
+<h4>{{address.street}}</h4>
+<h4>{{address.city}}</h4>
+<h4>{{address.pin}}</h4>
+
+
+<div>
+<form method="POST" action="/shopper">
+<textarea name="email" style="display:none;">{{address}}</textarea>
+<textarea name="order" style="display:none;">{{order.order}}</textarea>
+<button class="btn btn-primary" type="submit" style="width:100%; height:45px;">Accept order</button>
+</form>
+</div>
+</div>
+
+
+{% endblock %}

@@ -1,239 +1,444 @@
-import os
-import cgi
-import urllib
-import webapp2
-import jinja2
-
+from google.appengine.ext.webapp import template
 from google.appengine.ext import ndb
+
+import logging
+import os.path
+import webapp2
+import models
+
+from webapp2_extras import auth
+from webapp2_extras import sessions
+
+from webapp2_extras.auth import InvalidAuthIdError
+from webapp2_extras.auth import InvalidPasswordError
 from google.appengine.api import mail
-from google.appengine.api import memcache
+
+def user_required(handler):
+  """
+    Decorator that checks if there's a user associated with the current session.
+    Will also fail if there's no session present.
+  """
+  def check_login(self, *args, **kwargs):
+    auth = self.auth
+    if not auth.get_user_by_session():
+      self.redirect(self.uri_for('login'), abort=True)
+    else:
+      return handler(self, *args, **kwargs)
+
+  return check_login
+
+class BaseHandler(webapp2.RequestHandler):
+  @webapp2.cached_property
+  def auth(self):
+    """Shortcut to access the auth instance as a property."""
+    return auth.get_auth()
+
+  @webapp2.cached_property
+  def user_info(self):
+    """Shortcut to access a subset of the user attributes that are stored
+    in the session.
+
+    The list of attributes to store in the session is specified in
+      config['webapp2_extras.auth']['user_attributes'].
+    :returns
+      A dictionary with most user information
+    """
+    return self.auth.get_user_by_session()
+
+  @webapp2.cached_property
+  def user(self):
+    """Shortcut to access the current logged in user.
+
+    Unlike user_info, it fetches information from the persistence layer and
+    returns an instance of the underlying model.
+
+    :returns
+      The instance of the user model associated to the logged in user.
+    """
+    u = self.user_info
+    return self.user_model.get_by_id(u['user_id']) if u else None
+
+  @webapp2.cached_property
+  def user_model(self):
+    """Returns the implementation of the user model.
+
+    It is consistent with config['webapp2_extras.auth']['user_model'], if set.
+    """
+    return self.auth.store.user_model
+
+  @webapp2.cached_property
+  def session(self):
+      """Shortcut to access the current session."""
+      return self.session_store.get_session(backend="datastore")
+
+  def render_template(self, view_filename, params=None):
+    if not params:
+      params = {}
+    user = self.user_info
+    params['user'] = user
+    path = os.path.join(os.path.dirname(__file__), 'views', view_filename)
+    self.response.out.write(template.render(path, params))
+
+  # this is needed for webapp2 sessions to work
+  def dispatch(self):
+      # Get a session store for this request.
+      self.session_store = sessions.get_store(request=self.request)
+
+      try:
+          # Dispatch the request.
+          webapp2.RequestHandler.dispatch(self)
+      finally:
+          # Save all sessions.
+          self.session_store.save_sessions(self.response)
 
 
-#for loding jinda enviornment
-JINJA_ENVIRONMENT = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
-    autoescape=True,
-    extensions=['jinja2.ext.autoescape'])
+class SignupHandler(BaseHandler):
+  def get(self):
+    self.render_template('signup.html')
 
+  def post(self):
+    user_name = self.request.get('username')
+    email = self.request.get('email')
+    name = self.request.get('name')
+    password = self.request.get('password')
+    last_name = self.request.get('lastname')
 
-#database for people using less online shopping
-class survey_less(ndb.Model):
-    lname = ndb.StringProperty()
-    lemail = ndb.StringProperty()
-    #new entry
-    lgender = ndb.StringProperty()
-    lid = ndb.IntegerProperty()
-    lage = ndb.IntegerProperty()
+    if not password or password != self.request.get('confirm_password'):
+      params = {
+        'message' : 'Password dont match'
+      }
+      self.render_template('signup.html',params)
+    else:
+      unique_properties = ['email_address']
+      user_data = self.user_model.create_user(user_name,
+        unique_properties,
+        email_address=email, name=name, password_raw=password,
+        last_name=last_name, verified=False)
+      if not user_data[0]: #user_data is a tuple
+        message = 'Username/email already exists. please login or choose different username/email.'
+        params = {
+          'message' : message
+        }
+        self.render_template('signup.html',params)
+        return
 
-    lResidence = ndb.StringProperty()
-    lsmart = ndb.StringProperty()
-    lques_1 = ndb.TextProperty()
-    lques_2 = ndb.TextProperty()
-    lques_3 = ndb.TextProperty()
-    lques_4 = ndb.TextProperty()
-    lques_5 = ndb.TextProperty()
-    lques_6 = ndb.TextProperty()
-    lques_7 = ndb.TextProperty()
-    lques_8 = ndb.TextProperty()
-    lques_9 = ndb.TextProperty()
+      user = user_data[1]
+      user_id = user.get_id()
 
+      token = self.user_model.create_signup_token(user_id)
 
-#database for people frequently using online shopping
-class survey_more(ndb.Model):
-    mname = ndb.StringProperty()
-    memail = ndb.StringProperty()
-    #new entry
-    mgender = ndb.StringProperty()
-    mid = ndb.IntegerProperty()
-    mage = ndb.IntegerProperty()
+      verification_url = self.uri_for('verification', type='v', user_id=user_id,
+        signup_token=token, _full=True)
 
-    mResidence = ndb.StringProperty()
-    msmart = ndb.StringProperty()
-    mques_1 = ndb.TextProperty()
-    mques_2 = ndb.TextProperty()
-    mques_3 = ndb.TextProperty()
-    mques_4 = ndb.TextProperty()
-    mques_5 = ndb.TextProperty()
-    mques_6 = ndb.TextProperty()
-    mques_7 = ndb.TextProperty()
-    mques_8 = ndb.TextProperty()
-    mques_8 = ndb.TextProperty()
-    mques_9 = ndb.TextProperty()
+      email_id = email
 
+      mail.send_mail(sender="Corner Stores <mailkumarvikash@gmail.com>",
+                to=email_id,
+                subject="Approve account",
+                body="""
+               Hi,
+              Your sign up details are as follows:
+              Name : %s
+              Email Id : %s
+              If its authorised, Please click on link below.
+               %s
 
-#main handler having welcome page with asking how frequent they use online shopping
-class MainHandler(webapp2.RequestHandler):
-    def get(self):
+               Else, please reply back to this mail with details.""" % (name, email, verification_url))
 
-        template = JINJA_ENVIRONMENT.get_template('index.html')
-        self.response.write(template.render())
+      message = 'Thanks for signing up. Please contact admin to verify account!' + verification_url
 
-class SurveyHandler(webapp2.RequestHandler):
-    def get(self):
-        template = JINJA_ENVIRONMENT.get_template('survey.html')
-        self.response.write(template.render())
-    #post function after submission of their frequency of online shopping
-    def post(self):
-        #res is responce in scale of 0-100
-        resp = self.request.get('res')
-        if (resp <= 50):
-            self.redirect('/offline')
+      params = {
+        'message' : message
+      }
+      self.render_template('login.html',params)
 
-        else:
-            self.redirect('/smart')
+class ForgotPasswordHandler(BaseHandler):
+  def get(self):
+    self._serve_page()
 
+  def post(self):
+    username = self.request.get('username')
+    email = self.request.get('email')
 
+    user = self.user_model.get_by_auth_id(username)
+    if not user:
+      logging.info('Could not find any user entry for username %s', username)
+      self._serve_page(not_found=True)
+      return
 
-#handler for people using less online shopping
-class OfflineHandler(webapp2.RequestHandler):
-    def get(self):
-        template = JINJA_ENVIRONMENT.get_template('offline.html')
-        self.response.write(template.render(var))
+    user_id = user.get_id()
+    token = self.user_model.create_signup_token(user_id)
 
-    def post(self):
-        #thankyou page for user without oauth
-        mails = self.request.get('email')
-        uname = self.request.get('name')
-        auser = survey_less.query(survey_less.lemail == mails).get()
-        #condition if user has already filled the form
-        if auser is None:
-            surveys_less = survey_less(lname=uname,
-                                    llemail=mails,
-                                    Residence=self.request.get('residence'),
-                                    lsmart=self.request.get('smart'),
-                                    lques_1=self.request.get('lques_1'),
-                                    lques_2=self.request.get('lques_2'),
-                                    lques_3=self.request.get('lques_3'),
-                                    lques_4=self.request.get('lques_4'),
-                                    lques_5=self.request.get('lques_5'),
-                                    lques_6=self.request.get('lques_7'),
-                                    lques_7=self.request.get('lques_7'),
-                                    lques_8=self.request.get('lques_8'),
-                                    lques_9=self.request.get('lques_9'))
-            surveys_less.put()
+    verification_url = self.uri_for('verification', type='p', user_id=user_id,
+      signup_token=token, _full=True)
 
-            user_address = self.request.get('email')
-            message = mail.EmailMessage()
-            message.sender="Corner Stores Support <cornerstores.in@gmail.com>"
+    mail.send_mail(sender="Corner Stores <mailkumarvikash@gmail.com>",
+                to=email,
+                subject="Password Change",
+                body="""
+              Respected Sir/Mam,
+              You requested for changing your account password.
+              If its you, Please click on link below.
+               %s
 
-            message.subject="Thank You for your response!!"
+               Else, please reply back to this mail with details.""" %  verification_url)
 
-            message.to = user_address
-            message.body = """
-                Dear %s:
-                    Thank you for giving your time for us.
-                    Hold back till we surprise you. :)
+    params = {
+      'message' : 'Check mail to verify password change and login again.'
+    }
 
-                Thank You.
-                """ % uname
-
-            message.send()
-
-            template = JINJA_ENVIRONMENT.get_template('thankyou.html')
-            self.response.write(template.render(var))
-
-        else:
-            self.redirect('/already')
-
-
-
-#handler for people using online shopping frequently
-class SmartHandler(webapp2.RequestHandler):
-
-    def get(self):
-        template = JINJA_ENVIRONMENT.get_template('smart.html')
-        self.response.write(template.render())
-
-    def post(self):
-        #code to save date submitted from form
-        mails = self.request.get('email')
-        auser = survey_less.query(survey_less.lemail == mails).get()
-        #condition if user has already filled the form
-        if auser is None:
-            surveys_more = survey_more(mname=self.request.get('name'),
-                                    memail=mails,
-                                    mResidence=self.request.get('residence'),
-                                    msmart=self.request.get('smart'),
-                                    mques_1=self.request.get('mques_1'),
-                                    mques_2=self.request.get('mques_2'),
-                                    mques_3=self.request.get('mques_3'),
-                                    mques_4=self.request.get('mques_4'),
-                                    mques_5=self.request.get('mques_5'),
-                                    mques_6=self.request.get('mques_7'),
-                                    mques_7=self.request.get('mques_7'),
-                                    mques_8=self.request.get('mques_8'),
-                                    mques_9=self.request.get('mques_9'))
-            surveys_more.put()
-
-            #for sending mail reply
-            user_address = mails
-            message = mail.EmailMessage()
-            message.sender="Corner Stores Support <cornerstores.in@gmail.com>"
-
-            message.subject="Thank You for your response!!"
-
-            message.to = user_address
-            message.body = """
-                Dear %s:
-                    Thank you for giving your time for us.
-                    Hold back till we surprise you. :)
-
-                Thank You.
-                """ % uname
-
-            message.send()
-
-            template = JINJA_ENVIRONMENT.get_template('thankyou.html')
-            self.response.write(template.render())
-
-        else:
-            self.redirect('/already')
-
-
-
-class AboutHandler(webapp2.RequestHandler):
-    def get(self):
-        template = JINJA_ENVIRONMENT.get_template('about.html')
-        self.response.write(template.render(var))
-
-
-class ContactHandler(webapp2.RequestHandler):
-    def get(self):
-
-        template = JINJA_ENVIRONMENT.get_template('contact.html')
-        self.response.write(template.render(var))
-
-
-class TeamHandler(webapp2.RequestHandler):
-    def get(self):
-
-
-        template = JINJA_ENVIRONMENT.get_template('team.html')
-        self.response.write(template.render(var))
-
-
-class BlogHandler(webapp2.RequestHandler):
-    def get(self):
-
-
-        template = JINJA_ENVIRONMENT.get_template('blog.html')
-        self.response.write(template.render(var))
+    self.render_template('login.html',params)
 
 
 
 
+  def _serve_page(self, not_found=False):
+    params = {
+      'not_found': not_found
+    }
+    self.render_template('forgot.html', params)
 
-#routing handlers
-app = webapp2.WSGIApplication(
-    [
-     ('/', MainHandler),
-     ('/offline',OfflineHandler),
-     ('/smart',SmartHandler),
-     ('/about',AboutHandler),
-     ('/contact',ContactHandler),
-     ('/team',TeamHandler),
-     ('/blog',BlogHandler),
-     ('/survey',SurveyHandler),
-     ],
-    debug=True)
 
+class VerificationHandler(BaseHandler):
+  def get(self, *args, **kwargs):
+    user = None
+    user_id = kwargs['user_id']
+    signup_token = kwargs['signup_token']
+    verification_type = kwargs['type']
+
+    # it should be something more concise like
+    # self.auth.get_user_by_token(user_id, signup_token)
+    # unfortunately the auth interface does not (yet) allow to manipulate
+    # signup tokens concisely
+    user, ts = self.user_model.get_by_auth_token(int(user_id), signup_token,
+      'signup')
+
+    if not user:
+      logging.info('Could not find any user with id "%s" signup token "%s"',
+        user_id, signup_token)
+      self.abort(404)
+
+    # store user data in the session
+    self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
+
+    if verification_type == 'v':
+      # remove signup token, we don't want users to come back with an old link
+      self.user_model.delete_signup_token(user.get_id(), signup_token)
+
+      if not user.verified:
+        user.verified = True
+        user.put()
+
+      params = {
+        'message': 'User email address has been verified. Please login to access dashboard'
+      }
+
+      self.render_template('login.html', params)
+      return
+
+    elif verification_type == 'p':
+      # supply user to the page
+      params = {
+        'user': user,
+        'token': signup_token
+      }
+      self.render_template('resetpassword.html', params)
+    else:
+      logging.info('verification type not supported')
+      self.abort(404)
+
+class SetPasswordHandler(BaseHandler):
+  def get(self):
+    self.redirect('/')
+
+  @user_required
+  def post(self):
+    password = self.request.get('password')
+    old_token = self.request.get('t')
+
+    if not password or password != self.request.get('confirm_password'):
+      self.display_message('passwords do not match')
+      return
+
+    user = self.user
+    user.set_password(password)
+    user.put()
+
+    # remove signup token, we don't want users to come back with an old link
+    self.user_model.delete_signup_token(user.get_id(), old_token)
+    self.auth.unset_session()
+
+    params = {
+      'message' : 'Password Updated ! Login with new password.'
+    }
+    self.render_template('login.html',params)
+
+
+
+class LoginHandler(BaseHandler):
+  def get(self):
+    self._serve_page()
+
+  def post(self):
+    username = self.request.get('username')
+    password = self.request.get('password')
+    try:
+      u = self.auth.get_user_by_password(username, password,  remember=True,
+        save_session=True)
+      v = self.user_model.get_by_auth_id(username)
+      if v.verified is False:
+        self.auth.unset_session()
+        message = 'Email ID not veridfied, Please contact admin'
+        self._serve_page(message,True)
+        return
+      else:
+        self.redirect(self.uri_for('authenticated'))
+    except (InvalidAuthIdError, InvalidPasswordError) as e:
+      logging.info('Login failed for user %s because of %s', username, type(e))
+      message = 'Invalid password'
+      self._serve_page( message,True)
+
+  def _serve_page(self, message= False, failed=False):
+    username = self.request.get('username')
+    auth = self.auth
+    if not auth.get_user_by_session():
+      params = {
+        'username': username,
+        'failed': failed,
+        'message' : message
+      }
+      self.render_template('login.html', params)
+    else:
+      self.redirect(self.uri_for('authenticated'))
+
+class LogoutHandler(BaseHandler):
+  def get(self):
+    self.auth.unset_session()
+    self.redirect(self.uri_for('login'))
+
+
+class AuthenticatedHandler(BaseHandler):
+  @user_required
+  def get(self):
+    params = {
+      'email' : self.user.email_address,
+      'name' : self.user.name
+    }
+
+    self.render_template('dashboard.html', params)
+
+  @user_required
+  def post(self):
+    order = self.request.get_all('service')
+    users = self.user.email_address
+    save = models.Orders(order = order,
+                          user = users)
+    save.put()
+    params =  {
+      'order' : order
+    }
+
+    self.render_template('shop.html', params)
+
+class AddressHandler(BaseHandler):
+  @user_required
+  def get(self):
+    shop = self.request.get('shop')
+    users = self.user.email_address
+    orders = models.Orders.query(models.Orders.user==users).order(-models.Orders.creared_time).get()
+    orders.shops = shop
+    orders.put()
+
+    self.render_template('address.html')
+
+  def post(self):
+    types = self.request.get('flat')
+    street = self.request.get('street')
+    pin = self.request.get('pin')
+    city = self.request.get('city')
+    users = self.user.email_address
+
+    save = models.Addresses(flat = types,
+                              street = street,
+                              pin = pin,
+                              city = city,
+                              user = users)
+    save.put()
+
+    name = self.user.name
+
+    mail.send_mail(sender="Corner Stores <mailkumarvikash@gmail.com>",
+              to=users,
+              subject="Order Confirmed",
+              body="""
+            Hi %s,
+            Thank you for placing the order! Your order details are as follows.
+            Address: Flat: %s
+                    Street: %s
+                    City: %s
+                    Pin: %s
+             Else, please reply back to this mail with details.""" % (name,types, street, city, pin))
+
+    self.render_template('order_confirm.html')
+
+class ShopperHandler(BaseHandler):
+  @user_required
+  def get(self):
+    user = self.user.email_address
+    address = models.Addresses.query().order(-models.Addresses.creared_time).get()
+    order = models.Orders.query().order(-models.Orders.creared_time).get()
+    params = {
+      'address' : address,
+      'order' : order
+    }
+    self.render_template('order_accept.html', params)
+
+
+  def post(self):
+    users = self.request.get('email.user')
+    order = self.request.get('order')
+    userr = self.user.name
+    emaill = self.user.email_address
+
+
+    mail.send_mail(sender="Corner Stores <mailkumarvikash@gmail.com>",
+              to=users,
+              subject="Order Accepted",
+              body="""
+            Hi,
+                 has been accepted. It will be delivered soon by %s .""" % (userr))
+
+    params  {
+
+    }
+
+
+    self.render_template('order_accepted.html', params)
+
+
+
+config = {
+  'webapp2_extras.auth': {
+    'user_model': 'models.User',
+    'update_sofware': 'models.Software',
+    'user_attributes': ['name']
+  },
+  'webapp2_extras.sessions': {
+    'secret_key': 'YOUR_SECRET_KEY'
+  }
+}
+
+app = webapp2.WSGIApplication([
+    webapp2.Route('/', LoginHandler, name='login'),
+    webapp2.Route('/signup', SignupHandler),
+    webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',
+      handler=VerificationHandler, name='verification'),
+    webapp2.Route('/password', SetPasswordHandler),
+    webapp2.Route('/logout', LogoutHandler, name='logout'),
+    webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
+    webapp2.Route('/dashboard', AuthenticatedHandler, name='authenticated'),
+    webapp2.Route('/address', AddressHandler, name='address'),
+    webapp2.Route('/shopper', ShopperHandler, name='address')
+], debug=True, config=config)
+
+logging.getLogger().setLevel(logging.DEBUG)

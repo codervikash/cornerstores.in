@@ -1,0 +1,1181 @@
+{% extends "main.html" %}
+
+{% block maincontent %}
+
+
+<style type="text/css" media="screen">
+.navbar {
+    margin-bottom: 0px;
+}
+form {
+    min-height: 430px;
+    color: #777;
+    background: #f6f6f3;
+    box-shadow: 0px 3px 15px hsla(0,0%,0%,.08);
+    position: relative;
+    border: 1px solid #dfdfd3;
+   /* background-image: -webkit-radial-gradient(#d6d5d6 30%, transparent 20%),
+                      -webkit-radial-gradient(#cfcfc3 38%, transparent 24%),
+                      -webkit-linear-gradient(top, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,0) 95%,
+                                                   hsla(180,75%,50%,.1) 95%, hsla(180,75%,50%,.1) 100%);
+    background-image: -moz-radial-gradient(#d6d5d6 30%, transparent 20%),
+                      -moz-radial-gradient(#cfcfc3 38%, transparent 24%),
+                      -moz-linear-gradient(top, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,0) 95%,
+                                                   hsla(180,75%,50%,.1) 95%, hsla(180,75%,50%,.1) 100%);
+    background-image: radial-gradient(#d6d5d6 30%, transparent 20%),
+                      radial-gradient(#cfcfc3 38%, transparent 24%),
+                      linear-gradient(top, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,0) 95%,
+                                                   hsla(180,75%,50%,.1) 95%, hsla(180,75%,50%,.1) 100%);
+    background-position: 4px 1px, 4px 0px, 50% 0px;
+    background-repeat: repeat-y,  repeat-y, repeat;
+    background-size: 30px 30px, 30px 30px, 30px 30px;
+    padding: 36px 48px 23px 80px;*/
+}
+form:after {
+    border-left: 2px solid hsla(0,95%,50%,.1);
+    border-right: 2px solid hsla(0,95%,50%,.1);
+    bottom: 0;
+    content: '';
+    left: 60px;
+    position: absolute;
+    top: 0;
+    width: 3px;
+}
+
+form td {
+    font: italic 24px/30px 'Loved by the King', cursive;
+    line-height: 30px;
+    margin-bottom: 30px;
+}
+
+form h1 {
+    font: italic 30px/30px 'Loved by the King', cursive;
+}
+
+.say {
+background: transparent;
+border: 3px;
+border-width: 2px;
+border-color: red;
+width: 100%;
+min-height : 330px;
+font: 20px/30px serif;
+resize: true;
+}
+
+
+
+</style>
+
+<form style="
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+" method="post" action="/dashboard"><h1 style="
+    padding-left: 80px;
+">Enter your order</h1>
+   <!--  <textarea name="order" class="say" style="
+    padding-left: 82px;
+"></textarea> -->
+<div role="tabpanel" class="say" style="
+    padding-left: 82px;
+">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Vegitables</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Fruits</a></li>
+    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Staples</a></li>
+    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Personal</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home">
+        <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3">
+
+          <!-- Item row -->
+          <!-- ngRepeat: product in customer.products -->
+          <div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" value="tomato" name="service" type="checkbox">Tomato</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 14
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text222" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div><!-- end ngRepeat: product in customer.products -->
+
+          <div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" value="Onion" name="service"  type="checkbox">Onion</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 17
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text223" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" value="Potato" name="service"  type="checkbox">Potato</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 14
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text224" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" value="Cauliflower" name="service"  type="checkbox">Cauliflower</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 20
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text225" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" value="Lemon" name="service"  type="checkbox">Lemon</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 9
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">100 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text226" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" value="Lady Finger" name="service"  type="checkbox">Lady finger</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 26
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">250 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text227" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" value="Capsicum" name="service"  type="checkbox">Capsicum</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 23
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">250 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text228" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" value="Coriender" name="service"  type="checkbox">Coriender</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 7
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">100 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text229" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" value="Cucumber" name="service"  type="checkbox">Cucumber</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 10
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">250 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text230" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" value="Mashroom" name="service"  type="checkbox">Mashroom</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 60
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">1 pack</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text231" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" value="Ginger" name="service"  type="checkbox">Ginger</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 8
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">100 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text232" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" value="Cabbage" name="service"  type="checkbox">Cabbage</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 16
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">1 kg</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text233" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Chilli - Green</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 5
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">100 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text234" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Bringal - Black round</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 21
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text235" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Spanish</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 11
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text236" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Beans</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 20
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text237" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div><!-- end ngRepeat: product in customer.products -->
+
+          <!-- Total item cost -->
+
+        </div>
+      </div>
+
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="profile">
+        <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3">
+
+          <!-- Item row -->
+          <!-- ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Apple - Indian</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 75
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text240" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Banana</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 35
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">6 units</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text241" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Grapes - green</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 120
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text242" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Grapes - black</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 120
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text243" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Orange</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 30
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text244" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Papaya</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 50
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">1 kg</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text246" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Watermelon</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 80
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">2 kg</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text247" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Pineapple</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 80
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">1 kg</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text248" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Guava</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 30
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text249" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products -->
+
+          <!-- Total item cost -->
+
+        </div>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="messages">
+        <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3">
+
+          <!-- Item row -->
+          <!-- ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Pulses</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 77
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text849" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Salt - Tata</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 17
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">1 kg</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text850" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Sugar</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 67
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text851" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products -->
+          </div><!-- end ngRepeat: product in customer.products -->
+          <div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Rice - Kohinoor</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 99
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">1 kg</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text853" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Atta - Ashirvad</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 40
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">500 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text854" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- Total item cost -->
+
+        </div>
+      </div>
+    <div role="tabpanel" class="tab-pane" id="settings">
+        <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3">
+
+          <!-- Item row -->
+          <!-- ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Colgate Toothpaste</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 37
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">2 units </h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text856" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Colgate toothpaste - Active salt</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 86
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">200 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text857" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Deodorant - Adidas - Dynamic Pulse</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 199
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">150 ml</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text858" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Soap - Pears</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 36
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">75 gm</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text859" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Body Wash - Palmolive - Aroma Absolute Relax</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 145
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">250 ml</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text860" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Shampoo - Head & Shoulders - Anti Hair Fall</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 305
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">375 ml</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text861" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Conditioner - Dove - Dryness Care</input>
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 145
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">180 ml</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text862" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products --><div class="checkbox row products ng-scope" ng-repeat="product in customer.products" style="border-bottom:1px;">
+            <div class="col-xs-2 col-sm-2 ">
+              <!-- <img src="http://cdn.grofers.com/app/images/products/normal/pro_3881.jpg?1427285055"> -->
+            </div>
+            <div class="col-xs-10 col-sm-10">
+              <div class="row">
+                <div class="col-xs-8 col-sm-8">
+                  <input class="name ng-binding" type="checkbox">Face Wash - Himalaya - Herbals Purifying Neem</input>
+                <div class="col-xs-4 col-sm-4">
+                  <span class="total ng-binding">
+                    ₹ 90
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-sm-5">
+                  <h5 class="product-unit ng-binding">100 ml</h5>
+                </div>
+                <div class="col-xs-8 col-sm-7">
+                  <h5 class="max-limit" id="warning-text863" hide-element="" style="display: none;">
+                    Maximum quantity reached
+                  </h5>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- end ngRepeat: product in customer.products -->
+
+          <!-- Total item cost -->
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+    <a href="#" class="source"></a>
+
+
+<div>
+<button class="btn btn-primary" type="submit" style="width:100%; height:45px;">Choose Shop</button></div>
+</form>
+
+
+{% endblock %}
